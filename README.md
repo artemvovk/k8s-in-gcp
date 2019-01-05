@@ -13,4 +13,4 @@
 # K8s
 
 * Try out (kops)[https://github.com/kubernetes/kops], (kubeadm)[https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm/]
-* And then go crazy with: testing Istio, Consul, Vault, Control Planes, etc.
+* And then go crazy with: testing Istio, Prometheus, Consul, Vault, Control Planes, etc.
