@@ -1,19 +1,13 @@
-provider "google" {
-  credentials = "${file("ACCOUNT.json")}"
-  project     = "k8s-builder"
-  region      = "us-west1"
-}
-
 data "google_service_account" "service-account" {
-  account_id = "tf-cli"
+  account_id = "${var.service-account}"
 }
 
 data "google_storage_project_service_account" "gcs-account" {}
 
 resource "google_kms_key_ring" "encryption-key-ring" {
-  name     = "tf-state-key-ring"
-  project  = "k8s-builder"
-  location = "us-west1"
+  name     = "${var.key-ring-name}"
+  project  = "${var.project}"
+  location = "${var.region}"
 }
 
 resource "google_kms_crypto_key" "encryption-key" {
@@ -24,7 +18,7 @@ resource "google_kms_crypto_key" "encryption-key" {
 
 resource "google_storage_bucket" "state-bucket" {
   name     = "tf-backend-state"
-  location = "us-west1"
+  location = "${var.region}"
   force_destroy = true
   encryption {
     default_kms_key_name = "${google_kms_crypto_key.encryption-key.self_link}"
@@ -52,9 +46,9 @@ resource "google_kms_crypto_key_iam_binding" "encryption-key-service-role-bindin
   ]
 }
 
-resource "google_storage_bucket_object" "state-lock" {
-  name   = "/k8s-builder/default.tflock"
-  content = " "
-  bucket = "${google_storage_bucket.state-bucket.name}"
-}
+# resource "google_storage_bucket_object" "state-lock" {
+#   name   = "/k8s-builder/default.tflock"
+#   content = " "
+#   bucket = "${google_storage_bucket.state-bucket.name}"
+# }
 

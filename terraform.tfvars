@@ -7,3 +7,6 @@ terragrunt = {
     }
   }
 }
+service-account = "tf-cli"
+# Cause they never get deleted so you need a unique one
+key-ring-name = "tf-state-key-ring-1"
