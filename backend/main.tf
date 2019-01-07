@@ -5,8 +5,9 @@ provider "google" {
 
 module "backend-bucket" {
   source = "../modules/gcs-bucket"
-  service-account = "${var.service-account}"
+  service_account = "${var.service_account}"
   project = "${var.project}"
   region = "${var.region}"
-  key-ring-name = "${var.key-ring-name}"
+  key_link = "${var.key_link}"
+  key_ring_link = "${var.key_ring_link}"
 }
