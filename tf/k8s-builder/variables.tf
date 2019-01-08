@@ -1,3 +1,3 @@
 variable "region" {}
 variable "project" {}
-variable "service-account" {}
+variable "service_account" {}

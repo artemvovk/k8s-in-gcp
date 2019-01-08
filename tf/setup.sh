@@ -1,32 +1,21 @@
 #!/bin/bash -
-#===============================================================================
-#
-#          FILE: setup.sh
-#
-#         USAGE: ./setup.sh
-#
-#   DESCRIPTION:
-#
-#       OPTIONS: ---
-#  REQUIREMENTS: ---
-#          BUGS: ---
-#         NOTES: ---
-#        AUTHOR: YOUR NAME (),
-#  ORGANIZATION:
-#       CREATED: 01/06/2019 18:34
-#      REVISION:  ---
-#===============================================================================
-
 set -o nounset                              # Treat unset variables as an error
-export GOOGLE_APPLICATION_CREDENTIALS="${HOME}/.config/gcloud/k8s-builder-tf-cli.json"
-gcloud auth activate-service-account --key-file="${HOME}/.config/gcloud/k8s-builder-tf-cli.json"
 
-export TF_VAR_project="k8s-builder"
+
+export GOOGLE_SERVICE_ACCOUNT="tf-cli"
+export GOOGLE_PROJECT="k8s-builder"
+export GOOGLE_APPLICATION_CREDENTIALS="${HOME}/.config/gcloud/${GOOGLE_PROJECT}-${GOOGLE_SERVICE_ACCOUNT}.json"
+
+# These are shared variables between the two deployments but it's awkward to manage them in a file
+export TF_VAR_project="${GOOGLE_PROJECT}"
+export TF_VAR_service_account="${GOOGLE_SERVICE_ACCOUNT}"
 export TF_VAR_prefix="${TF_VAR_project}"
-export TF_VAR_region="us-west1"
-export TF_VAR_key_ring_name="tf-state-key-ring"
-export TF_VAR_key_name="tf-state-key"
+while read l; do
+    eval "export TF_VAR_$(echo $l | sed 's/\ =\ /=/')"
+done <terraform.tfvars
 
+gcloud auth activate-service-account \
+    --key-file="${GOOGLE_APPLICATION_CREDENTIALS}"
 # Handling input
 COMMAND="apply"
 PS3='Which action to perform: '
@@ -74,8 +63,9 @@ if [[ "$COMMAND" == "apply" ]]; then
 
 
     terraform init backend
-    terraform apply -auto-approve -var-file=terraform.tfvars backend
+    terraform apply -auto-approve backend
 
+    echo "bucket = \"${TF_VAR_bucket}\"" > remote.tfvars
     echo "yes" | TF_INPUT="true" terraform init -force-copy -backend-config=remote.tfvars remote
 else
     export TF_VAR_key_ring_link=$(gcloud kms keyrings list --location "${TF_VAR_region}" \
@@ -89,5 +79,5 @@ else
 
     terraform workspace select backend backend
     echo "yes" | TF_INPUT="true" terraform init backend
-    terraform destroy -auto-approve -var-file=terraform.tfvars backend
+    terraform destroy -auto-approve backend
 fi

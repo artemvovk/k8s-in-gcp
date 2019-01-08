@@ -19,6 +19,9 @@
 
 set -o nounset                              # Treat unset variables as an error
 
+# terragrunt init
+# terragrunt apply
+
 REGION="us-west1-a"
 PROJECT=`gcloud config get-value project`
 BUCKET="kops-cluster-store"
@@ -26,4 +29,6 @@ BUCKET="kops-cluster-store"
 export KOPS_STATE_STORE=gs://${BUCKET}/
 export KOPS_FEATURE_FLAGS=AlphaAllowGCE # to unlock the GCE features
 export KOPS_CLUSTER_NAME="base.k8s.local"
-kops create cluster --zones ${REGION} --state gs://${BUCKET}/ --project=${PROJECT}
+kops create cluster --zones ${REGION} --state gs://${BUCKET}/ --project=${PROJECT} --yes
+kops get cluster -o yaml > ${KOPS_CLUSTER_NAME}.yml
+

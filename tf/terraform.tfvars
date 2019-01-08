@@ -1,0 +1,6 @@
+project = "k8s-builder"
+region  = "us-west1"
+service_account = "tf-cli"
+key_ring_name = "tf-state-key-ring"
+key_name = "tf-state-key"
+bucket = "tf-backend-state"

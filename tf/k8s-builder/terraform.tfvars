@@ -1,5 +1,4 @@
-
-"user:${data.}"terragrunt = {
+terragrunt = {
   remote_state {
     backend = "gcs"
     config {
@@ -10,4 +9,4 @@
 }
 project = "k8s-builder"
 region = "us-west1"
-service-account = "tf-cli"
+service_account = "tf-cli"
