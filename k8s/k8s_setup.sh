@@ -31,4 +31,6 @@ export KOPS_FEATURE_FLAGS=AlphaAllowGCE # to unlock the GCE features
 export KOPS_CLUSTER_NAME="base.k8s.local"
 kops create cluster --zones ${REGION} --state gs://${BUCKET}/ --project=${PROJECT} --yes
 kops get cluster -o yaml > ${KOPS_CLUSTER_NAME}.yml
+kubectl create -f dashboard/adminuser.yaml
+kubectl create -f dashboard/dashboard.yaml
 

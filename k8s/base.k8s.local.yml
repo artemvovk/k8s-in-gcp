@@ -1,7 +1,7 @@
 apiVersion: kops/v1alpha2
 kind: Cluster
 metadata:
-  creationTimestamp: 2019-01-07T20:37:00Z
+  creationTimestamp: 2019-01-08T18:00:11Z
   name: base.k8s.local
 spec:
   api:
@@ -9,8 +9,6 @@ spec:
       type: Public
   authorization:
     rbac: {}
-  kubeAPIServer:
-    authorizationRbacSuperUser: admin
   channel: stable
   cloudProvider: gce
   configBase: gs://kops-cluster-store/base.k8s.local
