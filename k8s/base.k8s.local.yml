@@ -1,7 +1,7 @@
 apiVersion: kops/v1alpha2
 kind: Cluster
 metadata:
-  creationTimestamp: 2019-01-08T18:00:11Z
+  creationTimestamp: 2019-01-13T18:06:36Z
   name: base.k8s.local
 spec:
   api:
@@ -14,11 +14,11 @@ spec:
   configBase: gs://kops-cluster-store/base.k8s.local
   etcdClusters:
   - etcdMembers:
-    - instanceGroup: master-us-west1-a
+    - instanceGroup: master-us-central1-a
       name: a
     name: main
   - etcdMembers:
-    - instanceGroup: master-us-west1-a
+    - instanceGroup: master-us-central1-a
       name: a
     name: events
   iam:
@@ -31,17 +31,20 @@ spec:
   kubernetesVersion: 1.11.6
   masterPublicName: api.base.k8s.local
   networking:
-    kubenet: {}
+    flannel:
+      backend: vxlan
   nonMasqueradeCIDR: 100.64.0.0/10
   project: k8s-builder
   sshAccess:
   - 0.0.0.0/0
   subnets:
-  - name: us-west1
-    region: us-west1
-    type: Public
+  - name: us-central1
+    region: us-central1
+    type: Private
+  - name: utility-us-central1
+    type: Utility
   topology:
     dns:
       type: Public
-    masters: public
-    nodes: public
+    masters: private
+    nodes: private

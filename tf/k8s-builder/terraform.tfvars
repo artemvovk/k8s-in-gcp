@@ -3,10 +3,8 @@ terragrunt = {
     backend = "gcs"
     config {
       bucket = "tf-backend-state"
-      prefix = "k8s-builder"
+      prefix = "${get_env("GOOGLE_PROJECT", "k8s-builder")}"
     }
   }
 }
-project = "k8s-builder"
-region = "us-west1"
-service_account = "tf-cli"
+kops_store = "kops-cluster-store"

@@ -26,7 +26,7 @@
 * Add [dashboard](https://github.com/kubernetes/dashboard)
 * Some work stolen from [this workshop](https://github.com/leecalcote/istio-service-mesh-workshop)
 
-$$$ TODO:
+### TODO:
 
 * Proper RBAC
 * Add Istio

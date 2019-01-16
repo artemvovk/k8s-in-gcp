@@ -1,7 +1,6 @@
 #!/bin/bash -
 set -o nounset                              # Treat unset variables as an error
 
-
 export GOOGLE_SERVICE_ACCOUNT="tf-cli"
 export GOOGLE_PROJECT="k8s-builder"
 export GOOGLE_APPLICATION_CREDENTIALS="${HOME}/.config/gcloud/${GOOGLE_PROJECT}-${GOOGLE_SERVICE_ACCOUNT}.json"
@@ -16,6 +15,7 @@ done <terraform.tfvars
 
 gcloud auth activate-service-account \
     --key-file="${GOOGLE_APPLICATION_CREDENTIALS}"
+
 # Handling input
 COMMAND="apply"
 PS3='Which action to perform: '
@@ -65,6 +65,7 @@ if [[ "$COMMAND" == "apply" ]]; then
     terraform init backend
     terraform apply -auto-approve backend
 
+    # Save the remote state setup variables for further use
     echo "bucket = \"${TF_VAR_bucket}\"" > remote.tfvars
     echo "yes" | TF_INPUT="true" terraform init -force-copy -backend-config=remote.tfvars remote
 else
@@ -80,4 +81,5 @@ else
     terraform workspace select backend backend
     echo "yes" | TF_INPUT="true" terraform init backend
     terraform destroy -auto-approve backend
+    rm -rf remote.tfvars
 fi
