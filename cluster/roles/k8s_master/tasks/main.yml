@@ -1,0 +1,7 @@
+- name: Kubeadm startup
+  script: kubeadm_bootstrap.sh
+  register: k8s_master
+
+- name: Debug output
+  debug:
+    msg: "{{ k8s_master.stdout }}"

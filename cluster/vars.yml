@@ -2,6 +2,6 @@ gcp_cred_file: /home/artem/.config/gcloud/k8s-builder-tf-cli.json
 gcp_project: k8s-builder
 gcp_cred_kind: serviceaccount
 region: us-central1
-zone: us-central1-a
+zone: us-central1-b
 scopes:
   - "https://www.googleapis.com/auth/compute"

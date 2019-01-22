@@ -41,6 +41,3 @@ echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
 systemctl enable docker
 systemctl start docker
 systemctl enable kubelet
-systemctl start kubelet
-
-systemctl daemon-reload

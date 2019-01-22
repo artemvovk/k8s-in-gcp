@@ -1,0 +1,7 @@
+- name: Kubeadm join
+  script: kubeadm_bootstrap.sh
+  register: k8s_worker
+
+- name: Debug output
+  debug:
+    msg: "{{ k8s_worker.stdout }}"

@@ -1,6 +1,0 @@
-plugin: gcp_compute
-projects:
-  - google.com:k8s-builder
-filters:
-auth_kind: serviceaccount
-service_account_file: /home/artem/.config/gcloud/k8s-builder-tf-cli.json

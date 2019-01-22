@@ -1,0 +1,12 @@
+plugin: gcp_compute
+projects:
+  - k8s-builder
+filters:
+keyed_groups:
+  - prefix: tag
+    separator: '-'
+    key: tags['items']
+scopes:
+  - https://www.googleapis.com/auth/compute
+auth_kind: serviceaccount
+service_account_file: /home/artem/.config/gcloud/k8s-builder-tf-cli.json
