@@ -8,11 +8,13 @@
     * How to push local state of the backend to the backend once backend is provisioned
     * Interpolate all the right variables by project/account/credentials file: The bash script does an "ugly but working" sourcing of the variables
 * Also provision some network and machinery to run a self-managed K8s cluster (and not use GKE or EKS)
+* This does not use `kops` because it exposes public IP and you only get 1 with a free account
 
 ### Working:
 
 * `setup.sh` file can `apply` and `destroy` a backend bucket based whatever you define in the `terraform.tfvars` file.
 * `k8s-builder` provides a basic `kops-cluster-store` based on the [this documentation](https://github.com/kubernetes/kops/blob/master/docs/tutorial/gce.md)
+* `cluster` playbook to startup K8s master and nodes.
 
 ### TODO:
 
@@ -22,7 +24,7 @@
 
 ### Working:
 
-* Setup up basic `kops` cluster
+* TF+Ansible: Spin up a DIY etcd cluster, master, nodes. All accessible via bastion host.
 * Add [dashboard](https://github.com/kubernetes/dashboard)
 * Some work stolen from [this workshop](https://github.com/leecalcote/istio-service-mesh-workshop)
 
