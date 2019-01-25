@@ -93,3 +93,33 @@ resource "google_compute_instance" "k8s-node" {
     scopes = ["userinfo-email", "compute-ro", "storage-ro"]
   }
 }
+
+resource "google_compute_firewall" "k8s-workers-to-master" {
+  name      = "k8s-workers-to-master"
+  project   = "${var.project}"
+  network   = "${google_compute_network.k8s-network.name}"
+  direction = "INGRESS"
+
+  allow {
+    protocol = "tcp"
+    ports    = ["8080", "6443", "22"]
+  }
+
+  target_tags = ["master", "bastion"]
+  source_tags = ["worker"]
+}
+
+resource "google_compute_firewall" "k8s-master-to-workers" {
+  name      = "k8s-master-to-workers"
+  project   = "${var.project}"
+  network   = "${google_compute_network.k8s-network.name}"
+  direction = "INGRESS"
+
+  allow {
+    protocol = "tcp"
+    ports    = ["8080", "6443", "22"]
+  }
+
+  target_tags = ["worker"]
+  source_tags = ["master"]
+}

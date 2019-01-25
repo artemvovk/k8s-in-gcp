@@ -1,1 +1,2 @@
 host_key_checking: False
+ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q artem@35.185.2.28"'
